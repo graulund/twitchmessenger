@@ -215,6 +215,7 @@ NSString* ReadDeviceID() {
   [_window makeKeyAndOrderFront:self];
 
   // Sparkle
+    /*
   auto su = [SUUpdater sharedUpdater];
   su.feedURL = [NSURL URLWithString:@"http://fbmacmessenger.rsms.me/changelog.xml"];
   su.automaticallyChecksForUpdates = YES;
@@ -226,6 +227,7 @@ NSString* ReadDeviceID() {
                         ReadDeviceID()];
   su.updateCheckInterval = 60 * 60; // every hour
   [su performSelector:@selector(checkForUpdatesInBackground) withObject:nil afterDelay:0.1];
+    */
     
   _lastNotificationCount = @"";
 
@@ -277,7 +279,11 @@ NSString* ReadDeviceID() {
 
 
 - (IBAction)reloadFromServer:(id)sender {
-  auto req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.messenger.com/login"]];
+    NSString *finalUrl = @"http://www.twitch.tv/electricnet/chat";
+    auto url = [NSURL URLWithString:
+                [NSString stringWithFormat:@"https://secure.twitch.tv/login?embed_form=false&login=&redirect_on_login=%@",
+                 [finalUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    auto req = [[NSURLRequest alloc] initWithURL:url];
   [_webView.mainFrame loadRequest:req];
 }
 
@@ -623,9 +629,9 @@ decisionListener:(id<WebPolicyDecisionListener>)listener
 {
   //NSLog(@"%@%@ actionInformation=%@ request=%@", self, NSStringFromSelector(_cmd), actionInformation, request);
   NSURL* url = [[actionInformation objectForKey:WebActionOriginalURLKey] absoluteURL];
-  if ([url.scheme isEqualToString:@"about"]) {
+  if ([url.scheme isEqualToString:@"about"]) //{
     [listener ignore];
-  } else if ([url.host isEqualToString:@"www.messenger.com"] ||
+  /*} else if ([url.host isEqualToString:@"www.messenger.com"] ||
       ([url.host isEqualToString:@"www.facebook.com"] &&
        ([url.path hasPrefix:@"/login/"] || [url.path hasPrefix:@"/checkpoint/"] || [url.path isEqualToString:@"/checkpoint"])
       ) )
@@ -634,7 +640,9 @@ decisionListener:(id<WebPolicyDecisionListener>)listener
   } else {
     [self openWorkspaceURL:url];
     [listener ignore];
-  }
+  }*/
+    
+  else [listener use];
 }
 
 
