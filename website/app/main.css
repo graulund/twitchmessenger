@@ -1,0 +1,7 @@
+/* CSS enhancements for Twitch Chat Messenger app */
+
+.ember-chat .chat-header .button.left, .ember-chat .chat-header .follow-button:not(.ember-follow) .left.follow, .follow-button:not(.ember-follow) .ember-chat .chat-header .left.follow {
+
+    /* Preventing crash with traffic lights */
+    left: 80px !important;
+}

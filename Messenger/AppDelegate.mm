@@ -517,8 +517,10 @@ NSString* ReadDeviceID() {
     auto bundleInfo = [NSBundle mainBundle].infoDictionary;
     #if DEBUG
     auto mainJSURLString = @"resource://bundle/main.js";
+    auto mainCSSURLString = @"resource://bundle/main.css";
     #else
     auto mainJSURLString = [NSString stringWithFormat:@"http://fbmacmessenger.rsms.me/app/main.js?v=%@", bundleInfo[@"GitRev"]];
+    auto mainCSSURLString = [NSString stringWithFormat:@"http://fbmacmessenger.rsms.me/app/main.css?v=%@", bundleInfo[@"GitRev"]];
     #endif
     [webView.mainFrame.windowObject evaluateWebScript:
      [NSString stringWithFormat:@""
@@ -530,12 +532,17 @@ NSString* ReadDeviceID() {
       "    script.async = true;"
       "    script.src = '%@';"
       "    document.head.appendChild(script);"
+      "    var style = document.createElement('link');"
+      "    style.rel = 'stylesheet';"
+      "    style.href = '%@';"
+      "    document.head.appendChild(style);"
       "    this.disconnect();"
       "  }"
       "}).observe(document, { attributes: false, childList: true, characterData: false });",
       bundleInfo[@"CFBundleShortVersionString"],
       bundleInfo[@"GitRev"],
-      mainJSURLString]
+      mainJSURLString,
+      mainCSSURLString]
      ];
   }
 }
