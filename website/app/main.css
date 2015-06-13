@@ -5,3 +5,8 @@
     /* Preventing crash with traffic lights */
     left: 80px !important;
 }
+
+#ffz-group-tabs > a:first-child {
+    /* Preventing, again, crash with traffic lights */
+    margin-left: 60px !important;
+}

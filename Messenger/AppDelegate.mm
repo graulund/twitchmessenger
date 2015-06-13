@@ -522,6 +522,10 @@ NSString* ReadDeviceID() {
     auto mainJSURLString = [NSString stringWithFormat:@"http://fbmacmessenger.rsms.me/app/main.js?v=%@", bundleInfo[@"GitRev"]];
     auto mainCSSURLString = [NSString stringWithFormat:@"http://fbmacmessenger.rsms.me/app/main.css?v=%@", bundleInfo[@"GitRev"]];
     #endif
+      
+    auto sdeURLString = @"//graulund.github.io/secretdungeonemotes/sde.js";
+    auto ffzURLString = @"//cdn.frankerfacez.com/script/script.min.js";
+      
     [webView.mainFrame.windowObject evaluateWebScript:
      [NSString stringWithFormat:@""
       "window.MacMessengerVersion = '%@';"
@@ -529,6 +533,14 @@ NSString* ReadDeviceID() {
       "new MutationObserver(function() {"
       "  if (document.head) {"
       "    var script = document.createElement('script');"
+      "    script.async = true;"
+      "    script.src = '%@';"
+      "    document.head.appendChild(script);"
+      "    script = document.createElement('script');"
+      "    script.async = true;"
+      "    script.src = '%@';"
+      "    document.head.appendChild(script);"
+      "    script = document.createElement('script');"
       "    script.async = true;"
       "    script.src = '%@';"
       "    document.head.appendChild(script);"
@@ -542,6 +554,8 @@ NSString* ReadDeviceID() {
       bundleInfo[@"CFBundleShortVersionString"],
       bundleInfo[@"GitRev"],
       mainJSURLString,
+      ffzURLString,
+      sdeURLString,
       mainCSSURLString]
      ];
   }
